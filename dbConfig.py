@@ -1,25 +1,10 @@
-
-import mysql.connector
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
+# import mysql.connector
 import boto3
 
-
 # Load environment variables from .env file
-load_dotenv()
-
-
-import os
-from dotenv import load_dotenv
-import mysql.connector
-
-# Load environment variables from .env file
-load_dotenv()
-
-
-# create connection to dynmodb 
-
-dynamodb = boto3.resource('dynamodb')
+# load_dotenv()
 
 
 # Use environment variables
@@ -31,11 +16,11 @@ DB_CONFIG = {
 }
 
 
-def connect_to_database():
-    try:
-        conn = mysql.connector.connect(**DB_CONFIG)
-        return conn
+# def connect_to_database():
+#     try:
+#         conn = mysql.connector.connect(**DB_CONFIG)
+#         return conn
     
-    except mysql.connector.Error as err:
-        print(f"Error: {err}")
-        return None
+#     except mysql.connector.Error as err:
+#         print(f"Error: {err}")
+#         return None
