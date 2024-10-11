@@ -1,5 +1,6 @@
 
-from saveToDB import random_pokemon, check_if_pokemon_in_database
+from saveToDB import check_if_pokemon_in_database
+from apiHandle import random_pokemon
 
 def main():
 
