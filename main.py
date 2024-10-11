@@ -1,5 +1,4 @@
 
-from item_operations import insert_item_to_dynamodb
 from saveToDB import random_pokemon, check_if_pokemon_in_database
 
 def main():
