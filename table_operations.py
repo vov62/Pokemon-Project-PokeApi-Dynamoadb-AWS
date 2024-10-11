@@ -1,7 +1,6 @@
 import boto3
 
 
-
 def create_dynamodb_table():
 
     dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
