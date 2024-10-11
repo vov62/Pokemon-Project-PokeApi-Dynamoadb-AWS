@@ -1,5 +1,4 @@
 import boto3
-from botocore.exceptions import NoCredentialsError
 
 # Specify the AWS region
 region = 'us-west-2'
@@ -76,7 +75,7 @@ def create_ec2_instance():
 
         # Launch an EC2 instance
         instances = ec2_resource.create_instances(
-            ImageId='ami-0d081196e3df05f4d',  # Replace with your desired AMI ID
+            ImageId='ami-0d081196e3df05f4d',  
             InstanceType='t2.micro',
             KeyName='vockey',
             MinCount=1,
@@ -98,10 +97,7 @@ def create_ec2_instance():
         print(f'EC2 instance is up and running!')
 
         return instance_id
-
-    except NoCredentialsError as e:
-        print(f"Credentials error: {str(e)}")
-        return None
+    
     except Exception as e:
         print(f"An error occurred while creating the EC2 instance: {str(e)}")
         return None
