@@ -1,1 +1,1 @@
-# Pokemon-Project-PokeApi-Dynamoadb-AWS
+# Pokemon-Project-PokeApi-AWS-Dynamoadb

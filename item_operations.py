@@ -1,5 +1,7 @@
 
 from table_operations import create_dynamodb_table
+from datetime import datetime
+from boto3.dynamodb.conditions import Key, Attr
 
 
 def insert_item_to_dynamodb():
@@ -11,19 +13,21 @@ def insert_item_to_dynamodb():
         return
     
     try:
-        table.put_item(
+        response = table.put_item(
             Item={
-                "id": 82,
-                "name": "magneton",
-                "height": 10,
-                "weight": 600,
+                "id": 194,
+                "name": "wooper",
+                "height": 4,
+                "weight": 85,
                 "types": [
-                    "electric",
-                    "steel"
-                ]
+                    "water",
+                    "ground"
+                ],
+                "created_date": datetime.now().isoformat()
             }
         )
-        print('item added successfully!')
+        if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+            print('item added successfully!')
     except Exception as e:
         print(f"failed to create item: {str(e)}")
 

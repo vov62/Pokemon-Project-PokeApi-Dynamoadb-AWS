@@ -1,6 +1,6 @@
 import requests
-import mysql.connector
-from dbConfig import connect_to_database
+import random
+
 
 base_url =  'https://pokeapi.co/api/v2/pokemon'
 limit = 200
@@ -17,6 +17,7 @@ def fetch_pokemons_data():
         print(f'Error: fetching data failed! {res.status_code}')
 
     pokemon_list = data['results']
+    
     return pokemon_list
 
 
@@ -50,49 +51,15 @@ def fetch_single_pokemon_details(random_pokemon_name):
     return pokemon_details
 
 
+      
+def random_pokemon():
 
+    pokemon_list = fetch_pokemons_data()
 
-def save_pokemon_to_mysql():
-    pokemon_details = fetch_single_pokemon_details()
-    conn = connect_to_database()
-    
-    cursor = conn.cursor()
-    
+    # randomly select a Pokémon from the list
+    random_pokemon = random.choice(pokemon_list)
+    random_pokemon_name = random_pokemon['name']
+    print('Random Pokemon was chosen.')
 
-    # Create a table for storing Pokémon details if it doesn't exist
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS pokemon_table (
-        id INT PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
-        height INT NOT NULL,
-        weight INT NOT NULL
-    )
-    """
-    cursor.execute(create_table_query)
-
-    # Insert Pokémon details into the MySQL table
-    insert_query = """
-    INSERT INTO pokemon_table (id, name, height, weight)
-    VALUES (%s, %s, %s, %s)
-    ON DUPLICATE KEY UPDATE
-        name = VALUES(name),
-        height = VALUES(height),
-        weight = VALUES(weight)
-    """
-
-    values = (pokemon_details['id'], pokemon_details['name'], pokemon_details['height'], pokemon_details['weight'])
-   
-    try:
-        cursor.execute(insert_query, values)
-        # Commit the transaction
-        conn.commit()
-
-        print('success, Pokemon details saved to MySQL database!')
-        print('---------Pokemon details:-------------------')
-        print(f'Pokémon "{pokemon_details["name"]}"')
-    except mysql.connector.Error as err:
-        print(f"Error while inserting data: {err}")
-    finally:
-        # Close the connection
-        cursor.close()
-        conn.close()
+    # print(random_pokemon_name)
+    return random_pokemon_name
