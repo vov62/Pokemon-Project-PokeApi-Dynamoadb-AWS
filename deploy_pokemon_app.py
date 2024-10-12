@@ -1,50 +1,18 @@
 import boto3
+import os
+
 
 region = 'us-west-2'
 
 # Create a session using the default profile in ~/.aws/credentials
-session = boto3.Session(region_name=region)
+session = boto3.Session(
+    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+    region_name=region
+)
 
 dynamodb = session.resource('dynamodb', region_name=region)
 
-# Create DynamoDB table function
-def create_dynamodb_table():
-    table_name = 'pokemonsDBTable'
-
-    try:
-        # Check if the table exists first
-        table = dynamodb.Table(table_name)
-        table.load()  # This will trigger an exception if the table does not exist
-        print(f"Table '{table_name}' already exists")
-    except dynamodb.meta.client.exceptions.ResourceNotFoundException:
-        try:
-            # Create the DynamoDB table if it doesn't exist
-            table = dynamodb.create_table(
-                TableName=table_name,
-                KeySchema=[
-                    {
-                        'AttributeName': 'id',
-                        'KeyType': 'HASH'  # Partition key
-                    }
-                ],
-                AttributeDefinitions=[
-                    {
-                        'AttributeName': 'id',
-                        'AttributeType': 'N'
-                    }
-                ],
-                ProvisionedThroughput={
-                    'ReadCapacityUnits': 5,
-                    'WriteCapacityUnits': 5
-                }
-            )
-            # Wait until the table exists before continuing
-            table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
-            print(f"Table '{table_name}' created successfully!")
-        except Exception as e:
-            print(f"Failed to create table: {str(e)}")
-            return None
-    return table
 
 
 # Create EC2 instance function
@@ -101,6 +69,45 @@ def create_ec2_instance():
         return None
 
 
+
+# Create DynamoDB table function
+def create_dynamodb_table():
+    table_name = 'pokemonsDBTable'
+
+    try:
+        # Check if the table exists first
+        table = dynamodb.Table(table_name)
+        table.load()  # This will trigger an exception if the table does not exist
+        print(f"Table '{table_name}' already exists")
+    except dynamodb.meta.client.exceptions.ResourceNotFoundException:
+        try:
+            # Create the DynamoDB table if it doesn't exist
+            table = dynamodb.create_table(
+                TableName=table_name,
+                KeySchema=[
+                    {
+                        'AttributeName': 'id',
+                        'KeyType': 'HASH'  # Partition key
+                    }
+                ],
+                AttributeDefinitions=[
+                    {
+                        'AttributeName': 'id',
+                        'AttributeType': 'N'
+                    }
+                ],
+                ProvisionedThroughput={
+                    'ReadCapacityUnits': 5,
+                    'WriteCapacityUnits': 5
+                }
+            )
+            # Wait until the table exists before continuing
+            table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+            print(f"Table '{table_name}' created successfully!")
+        except Exception as e:
+            print(f"Failed to create table: {str(e)}")
+            return None
+    return table
 
 
 def main():
