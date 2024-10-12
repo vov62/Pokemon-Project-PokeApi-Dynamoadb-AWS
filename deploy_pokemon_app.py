@@ -1,15 +1,13 @@
 import boto3
-import os
 
 
 region = 'us-west-2'
 
 # Create a session using the default profile in ~/.aws/credentials
 session = boto3.Session(
-    aws_access_key_id='ASIAQHJUSZGZUTDX5D5W',
-    aws_secret_access_key='tWxtXssozPkhyUwUf6zZwhLgPXDAY+r+W+eRrjZZ',
     region_name=region
 )
+
 
 dynamodb = session.resource('dynamodb', region_name=region)
 
