@@ -1,12 +1,10 @@
 import boto3
 
-# Specify the AWS region
 region = 'us-west-2'
 
 # Create a session using the default profile in ~/.aws/credentials
-session = boto3.Session(profile_name='default', region_name=region)
+session = boto3.Session(region_name=region)
 
-# DynamoDB resource from the session
 dynamodb = session.resource('dynamodb', region_name=region)
 
 # Create DynamoDB table function
@@ -47,6 +45,7 @@ def create_dynamodb_table():
             print(f"Failed to create table: {str(e)}")
             return None
     return table
+
 
 # Create EC2 instance function
 def create_ec2_instance():
@@ -92,7 +91,6 @@ def create_ec2_instance():
         print('Waiting for instance to run...')
         instance.wait_until_running()
 
-        # Reload the instance attributes to get the public IP address
         instance.load()
         print(f'EC2 instance is up and running!')
 
