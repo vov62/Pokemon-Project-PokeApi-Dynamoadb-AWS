@@ -4,12 +4,10 @@ import boto3
 region = 'us-west-2'
 
 # Create a session using the default profile in ~/.aws/credentials
-session = boto3.Session(
-    region_name=region
-)
+session = boto3.Session(profile_name='default', region_name=region)
 
 
-dynamodb = session.resource('dynamodb', region_name=region)
+# dynamodb = session.resource('dynamodb', region_name=region)
 
 
 
@@ -69,43 +67,43 @@ def create_ec2_instance():
 
 
 # Create DynamoDB table function
-def create_dynamodb_table():
-    table_name = 'pokemonsDBTable'
+# def create_dynamodb_table():
+#     table_name = 'pokemonsDBTable'
 
-    try:
-        # Check if the table exists first
-        table = dynamodb.Table(table_name)
-        table.load()  # This will trigger an exception if the table does not exist
-        print(f"Table '{table_name}' already exists")
-    except dynamodb.meta.client.exceptions.ResourceNotFoundException:
-        try:
-            # Create the DynamoDB table if it doesn't exist
-            table = dynamodb.create_table(
-                TableName=table_name,
-                KeySchema=[
-                    {
-                        'AttributeName': 'id',
-                        'KeyType': 'HASH'  # Partition key
-                    }
-                ],
-                AttributeDefinitions=[
-                    {
-                        'AttributeName': 'id',
-                        'AttributeType': 'N'
-                    }
-                ],
-                ProvisionedThroughput={
-                    'ReadCapacityUnits': 5,
-                    'WriteCapacityUnits': 5
-                }
-            )
-            # Wait until the table exists before continuing
-            table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
-            print(f"Table '{table_name}' created successfully!")
-        except Exception as e:
-            print(f"Failed to create table: {str(e)}")
-            return None
-    return table
+#     try:
+#         # Check if the table exists first
+#         table = dynamodb.Table(table_name)
+#         table.load()  # This will trigger an exception if the table does not exist
+#         print(f"Table '{table_name}' already exists")
+#     except dynamodb.meta.client.exceptions.ResourceNotFoundException:
+#         try:
+#             # Create the DynamoDB table if it doesn't exist
+#             table = dynamodb.create_table(
+#                 TableName=table_name,
+#                 KeySchema=[
+#                     {
+#                         'AttributeName': 'id',
+#                         'KeyType': 'HASH'  # Partition key
+#                     }
+#                 ],
+#                 AttributeDefinitions=[
+#                     {
+#                         'AttributeName': 'id',
+#                         'AttributeType': 'N'
+#                     }
+#                 ],
+#                 ProvisionedThroughput={
+#                     'ReadCapacityUnits': 5,
+#                     'WriteCapacityUnits': 5
+#                 }
+#             )
+#             # Wait until the table exists before continuing
+#             table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+#             print(f"Table '{table_name}' created successfully!")
+#         except Exception as e:
+#             print(f"Failed to create table: {str(e)}")
+#             return None
+#     return table
 
 
 def main():
@@ -116,12 +114,12 @@ def main():
         print(f"EC2 instance created successfully with ID: {instance_id}")
 
         # Create DynamoDB table
-        dynamo_table = create_dynamodb_table()
+        # dynamo_table = create_dynamodb_table()
 
-        if dynamo_table:
-            print(f"DynamoDB table created successfully!")
-        else:
-            print("Failed to create DynamoDB table.")
+        # if dynamo_table:
+        #     print(f"DynamoDB table created successfully!")
+        # else:
+        #     print("Failed to create DynamoDB table.")
     else:
         print("Failed to create EC2 instance.")
 
