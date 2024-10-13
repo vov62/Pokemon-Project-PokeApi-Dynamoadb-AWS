@@ -61,5 +61,4 @@ def random_pokemon():
     random_pokemon_name = random_pokemon['name']
     print('Random Pokemon was chosen.')
 
-    # print(random_pokemon_name)
     return random_pokemon_name

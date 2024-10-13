@@ -32,6 +32,8 @@ def create_ec2_instance():
             pip3 install -r requirements.txt
         fi
 
+        pip3 install boto3
+
         # Run the application in the background
         nohup python3 poke_task.py --draw yes &
         '''
