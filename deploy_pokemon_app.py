@@ -113,7 +113,7 @@ def main():
     if instance_id:
         print(f"EC2 instance created successfully with ID: {instance_id}")
 
-        # Create DynamoDB table
+        # # Create DynamoDB table
         # dynamo_table = create_dynamodb_table()
 
         # if dynamo_table:
@@ -123,6 +123,6 @@ def main():
     else:
         print("Failed to create EC2 instance.")
 
-# Run the main function
+
 if __name__ == "__main__":
     main()
