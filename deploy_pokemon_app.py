@@ -4,7 +4,7 @@ import boto3
 region = 'us-west-2'
 
 # Create a session using the default profile in ~/.aws/credentials
-session = boto3.Session(profile_name='default', region_name=region)
+session = boto3.Session(region_name=region)
 
 
 dynamodb = session.resource('dynamodb', region_name=region)
